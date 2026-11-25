@@ -1,23 +1,23 @@
 import { estado } from "./estado.js";
-import { contarPendientes, contarCompletadas } from "./tareas.js";
+import { contarPendientes } from "./tareas.js";
 
 export function render() {
-  const lista = document.querySelector("#lista");
+  // Síntoma: TypeError al leer replaceChildren; getElementById("#lista") da null porque espera el id sin #.
+  const lista = document.getElementById("lista");
+  const resumen = document.querySelector("#resumen");
+
+  // Síntoma: solo queda la última tarea; replaceChildren() dentro del bucle borraba las anteriores en cada vuelta.
   lista.replaceChildren();
-
-  estado.tareas.forEach((tarea) => {
-    const elemento = document.createElement("li");
-    elemento.textContent = tarea.texto;
-
+  for (const tarea of estado.tareas) {
+    const li = document.createElement("li");
+    li.textContent = tarea.texto;
+    // Síntoma: todas salen tachadas; = true asignaba true y mutaba cada tarea en lugar de comprobarla.
     if (tarea.completada) {
-      elemento.classList.add("completada");
+      li.classList.add("completada");
     }
+    lista.append(li);
+  }
 
-    lista.append(elemento);
-  });
-
-  const pendientes = contarPendientes(estado.tareas);
-  const completadas = contarCompletadas(estado.tareas);
-  document.querySelector("#resumen").textContent =
-    `${completadas} completadas · ${pendientes} pendientes`;
+  // Síntoma: el resumen muestra el código de la función; sin llamada no se calcula el número de pendientes.
+  resumen.textContent = `Tienes ${contarPendientes(estado.tareas)} tareas pendientes`;
 }

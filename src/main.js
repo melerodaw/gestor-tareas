@@ -2,6 +2,7 @@
 import "./style.css";
 import { estado } from "./estado.js";
 import { render } from "./dom.js";
+import { renderNotas } from "./dom-notas.js";
 
 // 1. Muestra los datos estructurados en la consola de DevTools
 console.table(estado.tareas);
@@ -13,6 +14,7 @@ titulo.classList.add("titulo");
 
 // 3. Renderiza la lista y el resumen
 render();
+renderNotas();
 
 /*
 Predicción antes de ejecutar:
