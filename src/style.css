@@ -1,0 +1,8 @@
+.titulo {
+  color: #2c3e50;
+}
+
+.completada {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
